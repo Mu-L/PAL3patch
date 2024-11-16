@@ -1,14 +1,20 @@
 // misc functions
 #include "common.h"
 
-
 int is_win9x()
 {
     OSVERSIONINFO osvi;
     memset(&osvi, 0, sizeof(osvi));
     osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-    return osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
+    return GetVersionEx(&osvi) && osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
+}
+
+int is_laa()
+{
+    void *image_base = GetModuleHandle(NULL);
+    PIMAGE_DOS_HEADER pdoshdr = image_base;
+    PIMAGE_NT_HEADERS pnthdr = PTRADD(image_base, pdoshdr->e_lfanew);
+    return !!(pnthdr->FileHeader.Characteristics & IMAGE_FILE_LARGE_ADDRESS_AWARE);
 }
 
 int is_spacechar(char ch)

@@ -116,6 +116,7 @@
 
 #ifdef _DEBUG
 #pragma comment(lib, "d3dx9d.lib")
+#define USE_D3DX9D_43_DLL
 #else
 #pragma comment(lib, "d3dx9.lib")
 #endif
@@ -296,6 +297,8 @@ extern "C" {
 // PAL3patch headers
 #include "memallocator.h"
 #include "pal3.h"
+#include "d3d9wrapper.h"
+#include "d3dx9wrapper.h"
 #include "hook.h"
 #include "asmpatch.h"
 #include "about.h"
@@ -319,6 +322,7 @@ extern "C" {
 #include "sha1.h"
 #include "wal.h"
 #include "badtools.h"
+#include "gameversion.h"
 
 
 #ifdef __cplusplus

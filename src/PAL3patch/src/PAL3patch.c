@@ -44,6 +44,7 @@ static void prepare_fs()
 {
     create_dir("save");
     create_dir("snap");
+    
     reset_attrib("Pal3Log.txt");
     reset_attrib("EngineLog.txt");
 }
@@ -100,6 +101,10 @@ static void init_stage2()
     // init memory allocators
     init_memory_allocators();
     
+    // init direct3d wrapper
+    init_d3d9_wrapper();
+    init_d3dx9_wrapper();
+    
     // init hook framework
     init_hooks();
     init_effect_hooks();
@@ -139,7 +144,6 @@ static void init_stage2()
     INIT_PATCHSET(fixloading);
     INIT_PATCHSET(nommapcpk);
     INIT_PATCHSET(fixnosndcrash);
-    INIT_PATCHSET(checkgamever);
     
     if (INIT_PATCHSET(graphicspatch)) {
         // these are subpatchs of graphics patch
@@ -172,11 +176,14 @@ static void init_stage2()
     // load external plugins
     init_plugins();
     
-    // show_about() must called after init_locale()
-    show_about();
+    // check game version
+    check_gameversion();
     
     // check incompatible tools
     check_badtools();
+    
+    // show_about() must called after init_locale()
+    show_about();
 }
 
 

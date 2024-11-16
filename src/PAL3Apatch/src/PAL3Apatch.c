@@ -88,12 +88,15 @@ static void init_stage1()
 // init_stage2() should be called after EXE is unpacked
 static void init_stage2()
 {
-    
     // prepare filesystem environment
     prepare_fs();
     
     // init memory allocators
     init_memory_allocators();
+    
+    // init direct3d wrapper
+    init_d3d9_wrapper();
+    init_d3dx9_wrapper();
     
     // init hook framework
     init_hooks();
@@ -132,7 +135,6 @@ static void init_stage2()
     INIT_PATCHSET(fixvolume);
     INIT_PATCHSET(nommapcpk);
     INIT_PATCHSET(fixnosndcrash);
-    INIT_PATCHSET(checkgamever);
     
     if (INIT_PATCHSET(graphicspatch)) {
         // these are subpatchs of graphics patch
@@ -170,16 +172,17 @@ static void init_stage2()
         INIT_PATCHSET(screenshot); // should after as many patches as possible
     }
     
-    
-
     // load external plugins
     init_plugins();
     
-    // show_about() must called after init_locale()
-    show_about();
+    // check game version
+    check_gameversion();
     
     // check incompatible tools
     check_badtools();
+    
+    // show_about() must called after init_locale()
+    show_about();
 }
 
 

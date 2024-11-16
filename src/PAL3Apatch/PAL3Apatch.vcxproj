@@ -102,11 +102,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\d3d9wrapper.c" />
+    <ClCompile Include="src\d3dx9wrapper.c" />
     <ClCompile Include="src\effecthook.c" />
     <ClCompile Include="src\framework.c" />
     <ClCompile Include="src\fsutil.c" />
     <ClCompile Include="src\ftcharhack.c" />
     <ClCompile Include="src\ftfont.c" />
+    <ClCompile Include="src\gameversion.c" />
     <ClCompile Include="src\hook.c" />
     <ClCompile Include="src\locale.c" />
     <ClCompile Include="src\logger.c" />
@@ -116,7 +119,6 @@
     <ClCompile Include="src\PAL3Apatch.c" />
     <ClCompile Include="src\patch_audiofreq.c" />
     <ClCompile Include="src\patch_cdpatch.c" />
-    <ClCompile Include="src\patch_checkgamever.c" />
     <ClCompile Include="src\patch_clampuilib.c" />
     <ClCompile Include="src\patch_console.c" />
     <ClCompile Include="src\patch_depcompatible.c" />
@@ -185,11 +187,14 @@
     <ClInclude Include="include\PAL3Apatch\cfgreader.h" />
     <ClInclude Include="include\PAL3Apatch\cjktable.h" />
     <ClInclude Include="include\PAL3Apatch\common.h" />
+    <ClInclude Include="include\PAL3Apatch\d3d9wrapper.h" />
+    <ClInclude Include="include\PAL3Apatch\d3dx9wrapper.h" />
     <ClInclude Include="include\PAL3Apatch\effecthook.h" />
     <ClInclude Include="include\PAL3Apatch\framework.h" />
     <ClInclude Include="include\PAL3Apatch\fsutil.h" />
     <ClInclude Include="include\PAL3Apatch\ftcharhack.h" />
     <ClInclude Include="include\PAL3Apatch\ftfont.h" />
+    <ClInclude Include="include\PAL3Apatch\gameversion.h" />
     <ClInclude Include="include\PAL3Apatch\hook.h" />
     <ClInclude Include="include\PAL3Apatch\locale.h" />
     <ClInclude Include="include\PAL3Apatch\logger.h" />

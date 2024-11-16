@@ -86,17 +86,18 @@ static int VerifyPatchFiles()
 	CString buf;
 	const char **ptr;
 	for (ptr = pFileHash; *ptr; ptr += 2) {
-		const char *fn = ptr[0];
-		const char *hash = ptr[1];
-		char hashstr[SHA1_STR_SIZE];
-		if (!GetFileSHA1(fn, hashstr) || strcmp(hashstr, hash) != 0) {
-			if (cnt <= max_show) {
-				buf += "  ";
-				buf += cnt < max_show ? fn : "...";
-				buf += "\n";
-			}
-			cnt++;
+		const char *filename = ptr[0];
+		const char *hashstr = ptr[1];
+		SHA1Hash filehash;
+		if (GetFileSHA1(filename, &filehash) && filehash == SHA1Hash::fromhex(hashstr)) {
+			continue;
 		}
+		if (cnt <= max_show) {
+			buf += _T("  ");
+			buf += cnt < max_show ? filename : "...";
+			buf += _T("\n");
+		}
+		cnt++;
 	}
 	if (cnt > 0) {
 		CString msg;
@@ -183,4 +184,13 @@ void DoEvents()
 	while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
 		AfxGetApp()->PumpMessage();
 	}
+}
+
+void *Malloc(size_t n)
+{
+	void *ret = malloc(n);
+	if (!ret) {
+		die(1);
+	}
+	return ret;
 }

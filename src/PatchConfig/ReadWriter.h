@@ -16,7 +16,7 @@ private:
 	void close();
 	bool seek(unsigned offset);
 private:
-	std::string path;
+	wchar_t *path;
 	unsigned sz;
 	bool rw;
 public:
@@ -24,37 +24,14 @@ public:
 	bool write(const void *buffer, unsigned offset, size_t length);
 	unsigned size();
 public:
-	FileRW(const std::string &filepath, unsigned filesize);
+	FileRW(const char *filepath, unsigned filesize);
 	~FileRW();
-	bool reopen(bool readwrite);
+	void enablewrite();
 	void resize(unsigned filesize);
 	unsigned realsize();
 	bool truncate();
-};
-
-class RangeRW : public ReadWriter {
-private:
-	ReadWriter *fp;
-	unsigned base;
-	unsigned sz;
-public:
-	bool read(void *buffer, unsigned offset, size_t length);
-	bool write(const void *buffer, unsigned offset, size_t length);
-	unsigned size();
-public:
-	RangeRW(ReadWriter *io, unsigned rangebase, unsigned rangesize);
-	~RangeRW();
-};
-
-class DummyRW : public ReadWriter {
-private:
-	unsigned sz;
-public:
-	bool read(void *buffer, unsigned offset, size_t length);
-	bool write(const void *buffer, unsigned offset, size_t length);
-	unsigned size();
-public:
-	DummyRW(unsigned fakesize);
+	bool sync();
+	bool commit();
 };
 
 class ConcatRW : public ReadWriter {
@@ -85,6 +62,33 @@ public:
 public:
 	PaddingRW(ReadWriter *io, unsigned alignment);
 	~PaddingRW();
+};
+
+class CompareRW : public ReadWriter {
+private:
+	ReadWriter *fp;
+public:
+	bool read(void *buffer, unsigned offset, size_t length);
+	bool write(const void *buffer, unsigned offset, size_t length);
+	unsigned size();
+public:
+	CompareRW(ReadWriter *io);
+	~CompareRW();
+};
+
+class CacheRW : public ReadWriter {
+private:
+	void *cache;
+	unsigned base;
+	size_t count;
+	ReadWriter *fp;
+public:
+	bool read(void *buffer, unsigned offset, size_t length);
+	bool write(const void *buffer, unsigned offset, size_t length);
+	unsigned size();
+public:
+	CacheRW(ReadWriter *io);
+	~CacheRW();
 };
 
 #endif
